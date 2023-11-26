@@ -5,6 +5,7 @@ plugins {
     id ("org.barfuin.gradle.jacocolog") version "3.1.0"
 
     pmd
+    id ("com.github.spotbugs") version "5.1.3"
 }
 
 repositories {
@@ -63,5 +64,9 @@ tasks.pmdTest {
 }
 
 tasks.withType<Pmd>().configureEach {
+    ignoreFailures = true
+}
+
+spotbugs {
     ignoreFailures = true
 }
