@@ -8,6 +8,7 @@ plugins {
     id ("com.github.spotbugs") version "5.1.3"
 
     id ("com.diffplug.spotless") version "6.21.0"
+    checkstyle
 }
 
 repositories {
@@ -70,6 +71,18 @@ tasks.withType<Pmd>().configureEach {
 }
 
 spotbugs {
+    ignoreFailures = true
+}
+
+checkstyle {
+    toolVersion = "10.12.3"
+}
+
+tasks.checkstyleTest {
+    enabled = false
+}
+
+tasks.withType<Checkstyle>().configureEach {
     ignoreFailures = true
 }
 
