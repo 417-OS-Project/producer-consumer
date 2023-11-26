@@ -6,6 +6,8 @@ plugins {
 
     pmd
     id ("com.github.spotbugs") version "5.1.3"
+
+    id ("com.diffplug.spotless") version "6.21.0"
 }
 
 repositories {
@@ -69,4 +71,17 @@ tasks.withType<Pmd>().configureEach {
 
 spotbugs {
     ignoreFailures = true
+}
+
+/* Formatter Configuration */
+spotless {
+    java {
+        importOrder()
+        cleanthat()
+        googleJavaFormat()
+    }
+}
+
+tasks.check {
+    dependsOn(tasks.spotlessCheck)
 }
