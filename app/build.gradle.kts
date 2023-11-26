@@ -1,9 +1,10 @@
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
     application
 
     jacoco
     id ("org.barfuin.gradle.jacocolog") version "3.1.0"
+
+    pmd
 }
 
 repositories {
@@ -33,7 +34,6 @@ tasks.jar {
 }
 
 tasks.named<Test>("test") {
-    // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
 
@@ -49,4 +49,19 @@ tasks.test {
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+}
+
+/* Check Configurations */
+
+pmd {
+    toolVersion = "6.55.0"
+    isConsoleOutput = true
+}
+
+tasks.pmdTest {
+    enabled = false
+}
+
+tasks.withType<Pmd>().configureEach {
+    ignoreFailures = true
 }
