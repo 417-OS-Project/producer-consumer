@@ -28,6 +28,10 @@ application {
     mainClass.set("producerconsumer.App")
 }
 
+tasks.jar {
+    manifest.attributes["Main-Class"] = application.mainClass
+}
+
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
