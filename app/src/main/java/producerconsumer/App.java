@@ -1,5 +1,7 @@
 package producerconsumer;
 
+import java.util.ArrayList;
+
 /** Main class for the producer consumer package. */
 public class App {
   /**
@@ -26,12 +28,34 @@ public class App {
   }
 
   /**
+   * Create a specified number of producer threads.
+   *
+   * @param num number of producers.
+   * @return array list of threads.
+   */
+  public static ArrayList<Thread> createProducers(int num) {
+    ArrayList<Thread> producers = new ArrayList<>(num);
+    for (int i = 0; i < num; i++) {
+      producers.add(
+          new Thread() {
+            @Override
+            public void run() {
+              System.out.printf("Thread %d created%n", this.getId());
+            }
+          });
+    }
+    return producers;
+  }
+
+  /**
    * Main driver for the producer consumer package.
    *
    * @param args CLI arguments.
    */
   public static void main(String[] args) throws InterruptedException {
     int[] intArgs = new int[3];
+    ArrayList<Thread> producers;
+
     try {
       intArgs = validateArgs(args, 3);
     } catch (NumberFormatException e) {
@@ -40,6 +64,12 @@ public class App {
     } catch (IllegalArgumentException e) {
       System.out.println("Improper number of arguments passed");
       System.exit(-2);
+    }
+
+    producers = createProducers(intArgs[1]);
+
+    for (Thread thread : producers) {
+      thread.start();
     }
 
     Thread.sleep(intArgs[0]);
