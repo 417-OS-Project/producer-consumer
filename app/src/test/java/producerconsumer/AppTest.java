@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 class AppTest {
   @Test
   void testHandleArgs() {
-    App app = new App();
     assertArrayEquals(new int[] {1, 2, 3}, App.validateArgs(new String[] {"1", "2", "3"}));
     Assertions.assertThrows(
         NumberFormatException.class,
