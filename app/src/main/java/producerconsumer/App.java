@@ -1,5 +1,6 @@
 package producerconsumer;
 
+/** Main class for the producer consumer package. */
 public class App {
   /**
    * Handle the arguments for this program.
