@@ -5,12 +5,20 @@ package producerconsumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class AppTest {
   @Test
-  void appHasAGreeting() {
-    App classUnderTest = new App();
-    assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+  void testHandleArgs() {
+    App app = new App();
+    assertArrayEquals(new int[] {1, 2, 3}, App.validateArgs(new String[] {"1", "2", "3"}));
+    Assertions.assertThrows(
+        NumberFormatException.class,
+        () -> App.validateArgs(new String[] {"hello", "world", "bye"}));
+    Assertions.assertThrows(
+        IllegalArgumentException.class, () -> App.validateArgs(new String[] {"2", "2"}));
+    Assertions.assertThrows(
+        IllegalArgumentException.class, () -> App.validateArgs(new String[] {"4", "4", "4", "4"}));
   }
 }
