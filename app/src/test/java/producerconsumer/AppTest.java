@@ -11,13 +11,14 @@ import org.junit.jupiter.api.Test;
 class AppTest {
   @Test
   void testHandleArgs() {
-    assertArrayEquals(new int[] {1, 2, 3}, App.validateArgs(new String[] {"1", "2", "3"}));
+    assertArrayEquals(new int[] {1, 2, 3}, App.validateArgs(new String[] {"1", "2", "3"}, 3));
     Assertions.assertThrows(
         NumberFormatException.class,
-        () -> App.validateArgs(new String[] {"hello", "world", "bye"}));
+        () -> App.validateArgs(new String[] {"hello", "world", "bye"}, 3));
     Assertions.assertThrows(
-        IllegalArgumentException.class, () -> App.validateArgs(new String[] {"2", "2"}));
+        IllegalArgumentException.class, () -> App.validateArgs(new String[] {"2", "2"}, 3));
     Assertions.assertThrows(
-        IllegalArgumentException.class, () -> App.validateArgs(new String[] {"4", "4", "4", "4"}));
+        IllegalArgumentException.class,
+        () -> App.validateArgs(new String[] {"4", "4", "4", "4"}, 3));
   }
 }

@@ -1,18 +1,17 @@
 package producerconsumer;
 
-import java.lang.Thread;
-
 public class App {
   /**
    * Handle the arguments for this program.
    *
    * @param args array of strings.
+   * @param numOfArgs number of arguments expected.
    * @return integer array of args.
    * @throws NumberFormatException if a non-integer is in args.
    * @throws IllegalArgumentException if args is not equal to size of 3.
    */
-  public static int[] validateArgs(String[] args) {
-    if (args.length != 3) {
+  public static int[] validateArgs(String[] args, int numOfArgs) {
+    if (args.length != numOfArgs) {
       throw new IllegalArgumentException();
     }
 
@@ -33,7 +32,7 @@ public class App {
   public static void main(String[] args) throws InterruptedException {
     int[] intArgs = new int[3];
     try {
-      intArgs = validateArgs(args);
+      intArgs = validateArgs(args, 3);
     } catch (NumberFormatException e) {
       System.out.println("Non-integer number passed");
       System.exit(-1);
