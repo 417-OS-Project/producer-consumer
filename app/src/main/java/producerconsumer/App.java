@@ -40,11 +40,31 @@ public class App {
           new Thread() {
             @Override
             public void run() {
-              System.out.printf("Thread %d created%n", this.getId());
+              System.out.printf("Producer Thread %d created%n", this.getId());
             }
           });
     }
     return producers;
+  }
+
+  /**
+   * Create the specified number of consumer threads.
+   *
+   * @param num number of consumers.
+   * @return array list of threads.
+   */
+  public static ArrayList<Thread> createConsumers(int num) {
+    ArrayList<Thread> consumers = new ArrayList<>(num);
+    for (int i = 0; i < num; i++) {
+      consumers.add(
+          new Thread() {
+            @Override
+            public void run() {
+              System.out.printf("Consumer Thread %d created%n", this.getId());
+            }
+          });
+    }
+    return consumers;
   }
 
   /**
@@ -55,6 +75,7 @@ public class App {
   public static void main(String[] args) throws InterruptedException {
     int[] intArgs = new int[3];
     ArrayList<Thread> producers;
+    ArrayList<Thread> consumers;
 
     try {
       intArgs = validateArgs(args, 3);
@@ -67,8 +88,13 @@ public class App {
     }
 
     producers = createProducers(intArgs[1]);
+    consumers = createConsumers(intArgs[2]);
 
     for (Thread thread : producers) {
+      thread.start();
+    }
+
+    for (Thread thread : consumers) {
       thread.start();
     }
 

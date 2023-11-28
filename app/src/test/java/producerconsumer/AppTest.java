@@ -33,4 +33,15 @@ class AppTest {
     producers = App.createProducers(42);
     assertEquals(42, producers.size());
   }
+
+  @Test
+  void testCreateConsumers() {
+    ArrayList<Thread> consumers;
+
+    consumers = App.createConsumers(7);
+    assertEquals(7, consumers.size());
+
+    consumers = App.createConsumers(2);
+    assertEquals(2, consumers.size());
+  }
 }
