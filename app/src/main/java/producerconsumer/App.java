@@ -68,9 +68,10 @@ public class App {
    *
    * @param num number of consumers.
    * @param time the length of the program of the max time to sleep.
+   * @param buffer the buffer to remove from.
    * @return array list of threads.
    */
-  public static ArrayList<Thread> createConsumers(int num, int time) {
+  public static ArrayList<Thread> createConsumers(int num, int time, Buffer buffer) {
     ArrayList<Thread> consumers = new ArrayList<>(num);
     for (int i = 0; i < num; i++) {
       consumers.add(
@@ -84,6 +85,7 @@ public class App {
                 System.out.printf("Consumer Thread %d sleeping for %d%n", this.getId(), sleep);
                 try {
                   Thread.sleep(sleep);
+                  buffer.removeItem();
                 } catch (InterruptedException e) {
                   throw new RuntimeException(e);
                 }
@@ -117,7 +119,7 @@ public class App {
     }
 
     producers = createProducers(intArgs[1], intArgs[0], buffer);
-    consumers = createConsumers(intArgs[2], intArgs[0]);
+    consumers = createConsumers(intArgs[2], intArgs[0], buffer);
 
     for (Thread thread : producers) {
       thread.start();

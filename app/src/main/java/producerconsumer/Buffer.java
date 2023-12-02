@@ -8,9 +8,7 @@ public class Buffer {
   /** The maximum size of this buffer. */
   private static final int BUFFER_SIZE = 5;
 
-  /**
-   * The mutex lock for this buffer.
-   */
+  /** The mutex lock for this buffer. */
   private Semaphore mutex;
 
   /** Array of integer values. */
@@ -47,14 +45,37 @@ public class Buffer {
    * @return 0 if successful, -1 otherwise.
    */
   public int insertItem(int toAdd) throws InterruptedException {
-    System.out.printf("Thread %d seeking entry%n", Thread.currentThread().getId());
-    this.mutex.acquire();
-    System.out.printf("Thread %d entering%n", Thread.currentThread().getId());
+    try {
+      this.mutex.acquire();
+      System.out.printf("Thread %d entering%n", Thread.currentThread().getId());
 
-    this.contents.add(toAdd);
+      this.contents.add(toAdd);
 
-    System.out.printf("Thread %d leaving%n", Thread.currentThread().getId());
-    this.mutex.release();
-    return 0;
+      System.out.printf("Thread %d leaving%n", Thread.currentThread().getId());
+      this.mutex.release();
+      return 0;
+    } catch (Exception e) {
+      return -1;
+    }
+  }
+
+  /**
+   * Remove an item from the buffer.
+   *
+   * @return the removed item.
+   */
+  public int removeItem() throws InterruptedException {
+    try {
+      this.mutex.acquire();
+      System.out.printf("Thread %d entering%n", Thread.currentThread().getId());
+
+      this.contents.remove(0);
+
+      System.out.printf("Thread %d leaving%n", Thread.currentThread().getId());
+      this.mutex.release();
+      return 0;
+    } catch (Exception e) {
+      return -1;
+    }
   }
 }
