@@ -27,10 +27,10 @@ class AppTest {
   void testCreateProducers() {
     ArrayList<Thread> producers;
 
-    producers = App.createProducers(4);
+    producers = App.createProducers(4, 1);
     assertEquals(4, producers.size());
 
-    producers = App.createProducers(42);
+    producers = App.createProducers(42, 1);
     assertEquals(42, producers.size());
   }
 
