@@ -33,9 +33,10 @@ public class App {
    *
    * @param num number of producers.
    * @param time the length of the program or the max time for sleep.
+   * @param buffer the buffer to produce to.
    * @return array list of threads.
    */
-  public static ArrayList<Thread> createProducers(int num, int time) {
+  public static ArrayList<Thread> createProducers(int num, int time, Buffer buffer) {
     ArrayList<Thread> producers = new ArrayList<>(num);
     for (int i = 0; i < num; i++) {
       producers.add(
@@ -45,10 +46,12 @@ public class App {
               while (this.isAlive()) {
                 Random rand = new Random();
                 int sleep = rand.nextInt(time);
+                int toAdd = rand.nextInt(100);
 
                 System.out.printf("Producer Thread %d sleeping for %d%n", this.getId(), sleep);
                 try {
                   Thread.sleep(sleep);
+                  buffer.insertItem(toAdd);
                 } catch (InterruptedException e) {
                   throw new RuntimeException(e);
                 }
@@ -99,6 +102,7 @@ public class App {
    */
   public static void main(String[] args) throws InterruptedException {
     int[] intArgs = new int[3];
+    Buffer buffer = new Buffer();
     ArrayList<Thread> producers;
     ArrayList<Thread> consumers;
 
@@ -112,7 +116,7 @@ public class App {
       System.exit(-2);
     }
 
-    producers = createProducers(intArgs[1], intArgs[0]);
+    producers = createProducers(intArgs[1], intArgs[0], buffer);
     consumers = createConsumers(intArgs[2], intArgs[0]);
 
     for (Thread thread : producers) {
