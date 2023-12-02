@@ -17,4 +17,12 @@ public class BufferTest {
   void testBufferSize() {
     assertEquals(5, buffer.getMaximumQuantity());
   }
+
+  @Test
+  void testInsertItem() throws InterruptedException {
+    assertEquals(0, buffer.getNumOfContent());
+
+    buffer.insertItem(7);
+    assertEquals(1, buffer.getNumOfContent());
+  }
 }

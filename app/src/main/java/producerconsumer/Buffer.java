@@ -43,15 +43,18 @@ public class Buffer {
   /**
    * Insert an item into the buffer.
    *
+   * @param toAdd the integer to add to the buffer.
    * @return 0 if successful, -1 otherwise.
    */
-  public int insertItem() throws InterruptedException {
+  public int insertItem(int toAdd) throws InterruptedException {
     System.out.printf("Thread %d seeking entry%n", Thread.currentThread().getId());
     this.mutex.acquire();
     System.out.printf("Thread %d entering%n", Thread.currentThread().getId());
 
+    this.contents.add(toAdd);
+
     System.out.printf("Thread %d leaving%n", Thread.currentThread().getId());
     this.mutex.release();
-    return -1;
+    return 0;
   }
 }
