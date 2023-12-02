@@ -32,25 +32,28 @@ public class App {
    * Create a specified number of producer threads.
    *
    * @param num number of producers.
+   * @param time the length of the program or the max time for sleep.
    * @return array list of threads.
    */
-  public static ArrayList<Thread> createProducers(int num) {
+  public static ArrayList<Thread> createProducers(int num, int time) {
     ArrayList<Thread> producers = new ArrayList<>(num);
     for (int i = 0; i < num; i++) {
       producers.add(
           new Thread() {
             @Override
             public void run() {
-              Random rand = new Random();
-              int sleep = rand.nextInt(5000);
+              while (this.isAlive()) {
+                Random rand = new Random();
+                int sleep = rand.nextInt(time);
 
-              System.out.printf("Producer %d sleeping for %d%n", this.getId(), sleep);
-              try {
-                Thread.sleep(sleep);
-              } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                System.out.printf("Producer %d sleeping for %d%n", this.getId(), sleep);
+                try {
+                  Thread.sleep(sleep);
+                } catch (InterruptedException e) {
+                  throw new RuntimeException(e);
+                }
+                System.out.printf("Producer Thread %d wakes up%n", this.getId());
               }
-              System.out.printf("Producer Thread %d wakes up%n", this.getId());
             }
           });
     }
@@ -97,7 +100,7 @@ public class App {
       System.exit(-2);
     }
 
-    producers = createProducers(intArgs[1]);
+    producers = createProducers(intArgs[1], intArgs[0]);
     consumers = createConsumers(intArgs[2]);
 
     for (Thread thread : producers) {
@@ -109,5 +112,6 @@ public class App {
     }
 
     Thread.sleep(intArgs[0]);
+    System.exit(0);
   }
 }
