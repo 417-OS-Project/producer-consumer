@@ -46,7 +46,7 @@ public class App {
                 Random rand = new Random();
                 int sleep = rand.nextInt(time);
 
-                System.out.printf("Producer %d sleeping for %d%n", this.getId(), sleep);
+                System.out.printf("Producer Thread %d sleeping for %d%n", this.getId(), sleep);
                 try {
                   Thread.sleep(sleep);
                 } catch (InterruptedException e) {
@@ -64,16 +64,28 @@ public class App {
    * Create the specified number of consumer threads.
    *
    * @param num number of consumers.
+   * @param time the length of the program of the max time to sleep.
    * @return array list of threads.
    */
-  public static ArrayList<Thread> createConsumers(int num) {
+  public static ArrayList<Thread> createConsumers(int num, int time) {
     ArrayList<Thread> consumers = new ArrayList<>(num);
     for (int i = 0; i < num; i++) {
       consumers.add(
           new Thread() {
             @Override
             public void run() {
-              //System.out.printf("Consumer Thread %d created%n", this.getId());
+              while (this.isAlive()) {
+                Random rand = new Random();
+                int sleep = rand.nextInt(time);
+
+                System.out.printf("Consumer Thread %d sleeping for %d%n", this.getId(), sleep);
+                try {
+                  Thread.sleep(sleep);
+                } catch (InterruptedException e) {
+                  throw new RuntimeException(e);
+                }
+                System.out.printf("Consumer Thread %d wakes up%n", this.getId());
+              }
             }
           });
     }
@@ -101,7 +113,7 @@ public class App {
     }
 
     producers = createProducers(intArgs[1], intArgs[0]);
-    consumers = createConsumers(intArgs[2]);
+    consumers = createConsumers(intArgs[2], intArgs[0]);
 
     for (Thread thread : producers) {
       thread.start();

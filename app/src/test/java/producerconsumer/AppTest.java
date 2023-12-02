@@ -38,10 +38,10 @@ class AppTest {
   void testCreateConsumers() {
     ArrayList<Thread> consumers;
 
-    consumers = App.createConsumers(7);
+    consumers = App.createConsumers(7, 1);
     assertEquals(7, consumers.size());
 
-    consumers = App.createConsumers(2);
+    consumers = App.createConsumers(2, 1);
     assertEquals(2, consumers.size());
   }
 }
