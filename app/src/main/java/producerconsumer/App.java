@@ -1,6 +1,7 @@
 package producerconsumer;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /** Main class for the producer consumer package. */
 public class App {
@@ -40,7 +41,16 @@ public class App {
           new Thread() {
             @Override
             public void run() {
-              System.out.printf("Producer Thread %d created%n", this.getId());
+              Random rand = new Random();
+              int sleep = rand.nextInt(5000);
+
+              System.out.printf("Producer %d sleeping for %d%n", this.getId(), sleep);
+              try {
+                Thread.sleep(sleep);
+              } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+              }
+              System.out.printf("Producer Thread %d wakes up%n", this.getId());
             }
           });
     }
@@ -60,7 +70,7 @@ public class App {
           new Thread() {
             @Override
             public void run() {
-              System.out.printf("Consumer Thread %d created%n", this.getId());
+              //System.out.printf("Consumer Thread %d created%n", this.getId());
             }
           });
     }
