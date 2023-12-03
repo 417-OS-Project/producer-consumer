@@ -57,15 +57,9 @@ public class Buffer {
     try {
       this.empty.acquire();
       this.mutex.acquire();
-      System.out.printf("Thread %d entering%n", Thread.currentThread().getId());
 
-      if (this.contents.size() == BUFFER_SIZE) {
-        this.mutex.release();
-        return -1;
-      }
       this.contents.add(toAdd);
 
-      System.out.printf("Thread %d leaving%n", Thread.currentThread().getId());
       this.mutex.release();
       this.full.release();
       return 0;
@@ -77,22 +71,15 @@ public class Buffer {
   /**
    * Remove an item from the buffer.
    *
-   * @return the removed item.
+   * @return 0 if successful, -1 otherwise.
    */
   public int removeItem() throws InterruptedException {
     try {
       this.full.acquire();
       this.mutex.acquire();
-      System.out.printf("Thread %d entering%n", Thread.currentThread().getId());
-
-      if (this.contents.isEmpty()) {
-        this.mutex.release();
-        return -1;
-      }
 
       this.contents.remove(0);
 
-      System.out.printf("Thread %d leaving%n", Thread.currentThread().getId());
       this.mutex.release();
       this.empty.release();
       return 0;
