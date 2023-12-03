@@ -55,7 +55,7 @@ public class App {
                     return;
                   }
                   System.out.printf(
-                      "Producer Thread %d inserts %d into buffer", this.getId(), toAdd);
+                      "Producer Thread %d inserts %d into buffer%n", this.getId(), toAdd);
                 } catch (InterruptedException e) {
                   throw new RuntimeException(e);
                 }

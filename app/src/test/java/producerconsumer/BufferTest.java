@@ -24,6 +24,12 @@ public class BufferTest {
 
     buffer.insertItem(7);
     assertEquals(1, buffer.getNumOfContent());
+
+    buffer.insertItem(2);
+    buffer.insertItem(3);
+    buffer.insertItem(4);
+    buffer.insertItem(5);
+    assertEquals(5, buffer.getNumOfContent());
   }
 
   @Test
