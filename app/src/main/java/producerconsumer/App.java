@@ -48,14 +48,17 @@ public class App {
                 int sleep = rand.nextInt(time);
                 int toAdd = rand.nextInt(100);
 
-                System.out.printf("Producer Thread %d sleeping for %d%n", this.getId(), sleep);
                 try {
                   Thread.sleep(sleep);
-                  buffer.insertItem(toAdd);
+                  if (buffer.insertItem(toAdd) != 0) {
+                    System.out.printf("Error inserting occurred%n");
+                    return;
+                  }
+                  System.out.printf(
+                      "Producer Thread %d inserts %d into buffer", this.getId(), toAdd);
                 } catch (InterruptedException e) {
                   throw new RuntimeException(e);
                 }
-                System.out.printf("Producer Thread %d wakes up%n", this.getId());
               }
             }
           });
@@ -82,14 +85,16 @@ public class App {
                 Random rand = new Random();
                 int sleep = rand.nextInt(time);
 
-                System.out.printf("Consumer Thread %d sleeping for %d%n", this.getId(), sleep);
                 try {
                   Thread.sleep(sleep);
-                  buffer.removeItem();
+                  if (buffer.removeItem() != 0) {
+                    System.out.printf("Error consuming occurred%n");
+                    return;
+                  }
+                  System.out.printf("Consumer Thread %d consumed%n", this.getId());
                 } catch (InterruptedException e) {
                   throw new RuntimeException(e);
                 }
-                System.out.printf("Consumer Thread %d wakes up%n", this.getId());
               }
             }
           });
