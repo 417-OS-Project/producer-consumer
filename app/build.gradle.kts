@@ -35,6 +35,7 @@ application {
 
 tasks.jar {
     manifest.attributes["Main-Class"] = application.mainClass
+    archiveBaseName.set("producerconsumer")
 }
 
 tasks.named<Test>("test") {
