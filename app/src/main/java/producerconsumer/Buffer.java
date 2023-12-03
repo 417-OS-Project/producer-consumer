@@ -11,12 +11,21 @@ public class Buffer {
   /** The mutex lock for this buffer. */
   private Semaphore mutex;
 
+  /** Semaphore for empty buffer area. */
+  private Semaphore empty;
+
+  /** Semaphore for full buffer area. */
+  private Semaphore full;
+
   /** Array of integer values. */
   private ArrayList<Integer> contents;
 
   /** Constructor for this buffer. */
   public Buffer() {
-    mutex = new Semaphore(1);
+    this.mutex = new Semaphore(1);
+    this.empty = new Semaphore(BUFFER_SIZE);
+    this.full = new Semaphore(0);
+
     this.contents = new ArrayList<Integer>(BUFFER_SIZE);
   }
 
@@ -46,13 +55,19 @@ public class Buffer {
    */
   public int insertItem(int toAdd) throws InterruptedException {
     try {
+      this.empty.acquire();
       this.mutex.acquire();
       System.out.printf("Thread %d entering%n", Thread.currentThread().getId());
 
+      if (this.contents.size() == BUFFER_SIZE) {
+        this.mutex.release();
+        return -1;
+      }
       this.contents.add(toAdd);
 
       System.out.printf("Thread %d leaving%n", Thread.currentThread().getId());
       this.mutex.release();
+      this.full.release();
       return 0;
     } catch (Exception e) {
       return -1;
@@ -66,13 +81,20 @@ public class Buffer {
    */
   public int removeItem() throws InterruptedException {
     try {
+      this.full.acquire();
       this.mutex.acquire();
       System.out.printf("Thread %d entering%n", Thread.currentThread().getId());
+
+      if (this.contents.isEmpty()) {
+        this.mutex.release();
+        return -1;
+      }
 
       this.contents.remove(0);
 
       System.out.printf("Thread %d leaving%n", Thread.currentThread().getId());
       this.mutex.release();
+      this.empty.release();
       return 0;
     } catch (Exception e) {
       return -1;
