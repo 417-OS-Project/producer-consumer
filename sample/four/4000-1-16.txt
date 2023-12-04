@@ -1,0 +1,4 @@
+998 ms: Producer Thread 12 inserts 28 into buffer
+998 ms: Consumer Thread 28 consumed
+3256 ms: Consumer Thread 19 consumed
+3256 ms: Producer Thread 12 inserts 4 into buffer
