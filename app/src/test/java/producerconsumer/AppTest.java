@@ -5,6 +5,7 @@ package producerconsumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,13 +25,13 @@ class AppTest {
   }
 
   @Test
-  void testCreateProducers() {
+  void testCreateProducers() throws FileNotFoundException {
     ArrayList<Thread> producers;
 
-    producers = App.createProducers(4, 1, new Buffer());
+    producers = App.createProducers(4, 1, new Buffer(), null);
     assertEquals(4, producers.size());
 
-    producers = App.createProducers(42, 1, new Buffer());
+    producers = App.createProducers(42, 1, new Buffer(), null);
     assertEquals(42, producers.size());
   }
 
@@ -38,10 +39,10 @@ class AppTest {
   void testCreateConsumers() {
     ArrayList<Thread> consumers;
 
-    consumers = App.createConsumers(7, 1, new Buffer());
+    consumers = App.createConsumers(7, 1, new Buffer(), null);
     assertEquals(7, consumers.size());
 
-    consumers = App.createConsumers(2, 1, new Buffer());
+    consumers = App.createConsumers(2, 1, new Buffer(), null);
     assertEquals(2, consumers.size());
   }
 }
