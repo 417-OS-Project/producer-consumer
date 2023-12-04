@@ -1,0 +1,21 @@
+56 ms: Consumer Thread 31 consumed
+56 ms: Producer Thread 14 inserts 17 into buffer
+65 ms: Producer Thread 15 inserts 90 into buffer
+81 ms: Consumer Thread 28 consumed
+148 ms: Producer Thread 17 inserts 81 into buffer
+149 ms: Consumer Thread 30 consumed
+384 ms: Consumer Thread 28 consumed
+384 ms: Producer Thread 22 inserts 45 into buffer
+687 ms: Producer Thread 19 inserts 91 into buffer
+799 ms: Consumer Thread 28 consumed
+801 ms: Producer Thread 23 inserts 68 into buffer
+828 ms: Producer Thread 20 inserts 21 into buffer
+883 ms: Producer Thread 15 inserts 96 into buffer
+941 ms: Consumer Thread 31 consumed
+972 ms: Producer Thread 12 inserts 6 into buffer
+1148 ms: Producer Thread 12 inserts 15 into buffer
+1184 ms: Producer Thread 27 inserts 86 into buffer
+1774 ms: Producer Thread 15 inserts 16 into buffer
+1774 ms: Consumer Thread 29 consumed
+1907 ms: Consumer Thread 30 consumed
+1907 ms: Producer Thread 26 inserts 42 into buffer
