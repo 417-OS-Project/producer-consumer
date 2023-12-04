@@ -22,7 +22,7 @@ If a jar file is not presented, one can be generated using `./gradlew jar` while
 file in the `app/build/libs` directory.
 
 ## Sample Execution
-When run with `java -jar producerconsumer.jar 10000 5 5`, the following output is generated:
+When run with `java -jar producerconsumer.jar 10000 5 5`, the following output is generated to the console:
 ```
 Producer Thread 16 inserts 64 into buffer
 Consumer Thread 21 consumed
@@ -40,3 +40,5 @@ Consumer Thread 19 consumed
 Consumer Thread 22 consumed
 Producer Thread 15 inserts 71 into buffer
 ```
+Additionally, this output will be placed in a text file found in the `report/` directory with a naming convention
+as follows: `{time}-{producers}-{consumers}.txt`
