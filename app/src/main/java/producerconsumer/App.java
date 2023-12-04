@@ -5,6 +5,9 @@ import java.util.Random;
 
 /** Main class for the producer consumer package. */
 public class App {
+  /** Global variable to determine the start time of this program. */
+  public static long startTime = System.nanoTime();
+
   /**
    * Handle the arguments for this program.
    *
@@ -55,7 +58,8 @@ public class App {
                     return;
                   }
                   System.out.printf(
-                      "Producer Thread %d inserts %d into buffer%n", this.getId(), toAdd);
+                      "%d ms: Producer Thread %d inserts %d into buffer%n",
+                          (System.nanoTime() - startTime) / 1000000, this.getId(), toAdd);
                 } catch (InterruptedException e) {
                   throw new RuntimeException(e);
                 }
@@ -91,7 +95,9 @@ public class App {
                     System.out.printf("Error consuming occurred%n");
                     return;
                   }
-                  System.out.printf("Consumer Thread %d consumed%n", this.getId());
+                  System.out.printf(
+                      "%d ms: Consumer Thread %d consumed%n",
+                          (System.nanoTime() - startTime) / 1000000, this.getId());
                 } catch (InterruptedException e) {
                   throw new RuntimeException(e);
                 }
