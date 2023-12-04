@@ -1,5 +1,8 @@
 package producerconsumer;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -37,10 +40,20 @@ public class App {
    * @param num number of producers.
    * @param time the length of the program or the max time for sleep.
    * @param buffer the buffer to produce to.
+   * @param fout the file output stream.
    * @return array list of threads.
    */
-  public static ArrayList<Thread> createProducers(int num, int time, Buffer buffer) {
+  public static ArrayList<Thread> createProducers(
+      int num, int time, Buffer buffer, FileOutputStream fout) {
     ArrayList<Thread> producers = new ArrayList<>(num);
+
+    boolean toFile;
+    if (fout != null) {
+      toFile = true;
+    } else {
+      toFile = false;
+    }
+
     for (int i = 0; i < num; i++) {
       producers.add(
           new Thread() {
@@ -54,13 +67,27 @@ public class App {
                 try {
                   Thread.sleep(sleep);
                   if (buffer.insertItem(toAdd) != 0) {
-                    System.out.printf("Error inserting occurred%n");
+                    String err = "Error inserting occurred%n";
+                    System.out.printf(err);
+
+                    if (toFile) {
+                      fout.write(err.getBytes());
+                    }
+
                     return;
                   }
-                  System.out.printf(
-                      "%d ms: Producer Thread %d inserts %d into buffer%n",
+                  String msg =
+                      String.format(
+                          "%d ms: Producer Thread %d inserts %d into buffer%n",
                           (System.nanoTime() - startTime) / 1000000, this.getId(), toAdd);
+                  System.out.printf(msg);
+
+                  if (toFile) {
+                    fout.write(msg.getBytes());
+                  }
                 } catch (InterruptedException e) {
+                  throw new RuntimeException(e);
+                } catch (IOException e) {
                   throw new RuntimeException(e);
                 }
               }
@@ -76,10 +103,19 @@ public class App {
    * @param num number of consumers.
    * @param time the length of the program of the max time to sleep.
    * @param buffer the buffer to remove from.
+   * @param fout the file output stream.
    * @return array list of threads.
    */
-  public static ArrayList<Thread> createConsumers(int num, int time, Buffer buffer) {
+  public static ArrayList<Thread> createConsumers(int num, int time, Buffer buffer, FileOutputStream fout) {
     ArrayList<Thread> consumers = new ArrayList<>(num);
+
+    boolean toFile;
+    if (fout != null) {
+      toFile = true;
+    } else {
+      toFile = false;
+    }
+
     for (int i = 0; i < num; i++) {
       consumers.add(
           new Thread() {
@@ -92,14 +128,29 @@ public class App {
                 try {
                   Thread.sleep(sleep);
                   if (buffer.removeItem() != 0) {
-                    System.out.printf("Error consuming occurred%n");
+                    String err = "Error consuming occured%n";
+                    System.out.printf(err);
+
+                    if (toFile) {
+                      fout.write(err.getBytes());
+                    }
+
                     return;
                   }
-                  System.out.printf(
-                      "%d ms: Consumer Thread %d consumed%n",
+                  String msg =
+                      String.format(
+                          "%d ms: Consumer Thread %d consumed%n",
                           (System.nanoTime() - startTime) / 1000000, this.getId());
+                  System.out.printf(msg);
+
+                  if (toFile) {
+                    fout.write(msg.getBytes());
+                  }
+
                 } catch (InterruptedException e) {
                   throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
               }
             }
@@ -113,7 +164,7 @@ public class App {
    *
    * @param args CLI arguments.
    */
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws InterruptedException, IOException {
     int[] intArgs = new int[3];
     Buffer buffer = new Buffer();
     ArrayList<Thread> producers;
@@ -129,8 +180,15 @@ public class App {
       System.exit(-2);
     }
 
-    producers = createProducers(intArgs[1], intArgs[0], buffer);
-    consumers = createConsumers(intArgs[2], intArgs[0], buffer);
+    String path = String.format("../reports/%d-%d-%d.txt", intArgs[0], intArgs[1], intArgs[2]);
+    File file = new File(path);
+    file.getParentFile().mkdirs();
+    file.createNewFile();
+
+    FileOutputStream fout = new FileOutputStream(file);
+
+    producers = createProducers(intArgs[1], intArgs[0], buffer, fout);
+    consumers = createConsumers(intArgs[2], intArgs[0], buffer, fout);
 
     for (Thread thread : producers) {
       thread.start();
