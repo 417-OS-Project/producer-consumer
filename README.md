@@ -10,7 +10,7 @@ This program analyzes a producer-consumer problem through the usage of empty, fu
 
 ## Running Instructions
 This program can be run with either Gradle's build functionality or from the jar file. Both will require the following
-arguments to be passed to them: time (length of the program in milloseconds), producers (number of producers), and
+arguments to be passed to them: time (length of the program in milliseconds), producers (number of producers), and
 consumers (number of consumers).
 
 ### Run with Gradle
@@ -42,3 +42,9 @@ Producer Thread 15 inserts 71 into buffer
 ```
 Additionally, this output will be placed in a text file found in the `report/` directory with a naming convention
 as follows: `{time}-{producers}-{consumers}.txt`
+
+## Results
+In regards to turnaround time, this problem demonstrates the need for a comparable amount of producers and consumers. When the
+number of producers outweighs the consumers, the turnaround time for the producers continues to grow as each thread will have
+to wait in the semaphore queue for longer and longer. This is also true in the case of consumers outweighing the producers
+as they will have to wait in their queue for longer and longer and the program continues.

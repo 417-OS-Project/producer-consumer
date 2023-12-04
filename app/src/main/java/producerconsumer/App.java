@@ -181,7 +181,7 @@ public class App {
       System.exit(-2);
     }
 
-    String path = String.format("../report/%d-%d-%d.txt", intArgs[0], intArgs[1], intArgs[2]);
+    String path = String.format("report/%d-%d-%d.txt", intArgs[0], intArgs[1], intArgs[2]);
     File file = new File(path);
     file.getParentFile().mkdirs();
     file.createNewFile();
