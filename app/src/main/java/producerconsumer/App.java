@@ -106,7 +106,8 @@ public class App {
    * @param fout the file output stream.
    * @return array list of threads.
    */
-  public static ArrayList<Thread> createConsumers(int num, int time, Buffer buffer, FileOutputStream fout) {
+  public static ArrayList<Thread> createConsumers(
+      int num, int time, Buffer buffer, FileOutputStream fout) {
     ArrayList<Thread> consumers = new ArrayList<>(num);
 
     boolean toFile;
@@ -150,7 +151,7 @@ public class App {
                 } catch (InterruptedException e) {
                   throw new RuntimeException(e);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                  throw new RuntimeException(e);
                 }
               }
             }
@@ -180,7 +181,7 @@ public class App {
       System.exit(-2);
     }
 
-    String path = String.format("../reports/%d-%d-%d.txt", intArgs[0], intArgs[1], intArgs[2]);
+    String path = String.format("../report/%d-%d-%d.txt", intArgs[0], intArgs[1], intArgs[2]);
     File file = new File(path);
     file.getParentFile().mkdirs();
     file.createNewFile();
