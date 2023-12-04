@@ -1,0 +1,9 @@
+1464 ms: Producer Thread 15 inserts 18 into buffer
+1464 ms: Consumer Thread 16 consumed
+1537 ms: Producer Thread 13 inserts 48 into buffer
+1655 ms: Producer Thread 13 inserts 17 into buffer
+2618 ms: Consumer Thread 16 consumed
+2624 ms: Producer Thread 14 inserts 56 into buffer
+3382 ms: Consumer Thread 17 consumed
+3701 ms: Producer Thread 15 inserts 10 into buffer
+5242 ms: Producer Thread 12 inserts 70 into buffer
