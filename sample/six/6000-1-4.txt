@@ -1,0 +1,2 @@
+3064 ms: Producer Thread 12 inserts 89 into buffer
+3064 ms: Consumer Thread 14 consumed
